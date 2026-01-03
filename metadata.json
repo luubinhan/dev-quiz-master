@@ -1,0 +1,5 @@
+{
+  "name": "DevQuiz Master",
+  "description": "Một ứng dụng trắc nghiệm lập trình chuyên sâu dành cho nhà phát triển, hỗ trợ nhiều loại câu hỏi và phân tích kết quả bằng AI.",
+  "requestFramePermissions": []
+}

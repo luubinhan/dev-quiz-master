@@ -91,7 +91,7 @@ const App: React.FC = () => {
               </button>
             )}
             <h1 className="text-3xl font-[900] text-white tracking-tighter drop-shadow-[2px_2px_0px_rgba(0,0,0,1)]">
-              {view === 'quiz' ? 'Quiz' : 'DevQuiz'}
+              {view === 'quiz' ? 'DevQuiz Master' : 'DevQuiz Master'}
             </h1>
         </div>
         {view === 'quiz' && (
@@ -110,7 +110,7 @@ const App: React.FC = () => {
                     <h3 className="font-black text-black uppercase tracking-wider text-sm flex items-center gap-2">
                         <span className="bg-black text-white p-1 rounded">🏆</span> Topics
                     </h3>
-                    <span className="text-[10px] font-black underline cursor-pointer">See All ></span>
+                    <span className="text-[10px] font-black underline cursor-pointer">See All</span>
                 </div>
                 <div className="grid grid-cols-2 gap-4">
                     <div className="bg-white border-2 border-black p-3 rounded-xl shadow-[3px_3px_0px_0px_rgba(0,0,0,1)]">
@@ -126,7 +126,7 @@ const App: React.FC = () => {
 
             {/* Play Now Banner */}
             <div className="brutalist-card bg-white p-4 flex justify-between items-center">
-                <span className="font-black text-black">>>></span>
+                <span className="font-black text-black">a</span>
                 <span className="text-2xl font-[1000] tracking-tighter uppercase italic">Ready to Code?</span>
                 <span className="font-black text-black text-lg font-serif">!</span>
             </div>

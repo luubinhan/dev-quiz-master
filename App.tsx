@@ -156,7 +156,7 @@ const App: React.FC = () => {
                 onClick={() => setCurrentIdx(prev => prev - 1)}
                 className="flex-1 p-4 bg-white brutalist-button rounded-2xl font-black uppercase text-sm"
               >
-                Back
+                Quay lại
               </button>
 
               {currentIdx < questions.length - 1 ? (
@@ -164,14 +164,14 @@ const App: React.FC = () => {
                   onClick={() => setCurrentIdx(prev => prev + 1)}
                   className="flex-[2] p-4 bg-black text-white border-3 border-black rounded-2xl font-black uppercase tracking-widest hover:bg-gray-800 brutalist-button"
                 >
-                  Next
+                  Tiếp
                 </button>
               ) : (
                 <button
                   onClick={calculateScore}
                   className="flex-[2] p-4 bg-green-400 border-3 border-black rounded-2xl font-black uppercase tracking-widest hover:bg-green-500 brutalist-button"
                 >
-                  Finish
+                  Hoàn Tất
                 </button>
               )}
             </div>
@@ -183,24 +183,24 @@ const App: React.FC = () => {
             {/* Score Neubrutalist Card */}
             <div className="brutalist-card overflow-hidden bg-white">
               <div className="bg-black p-8 text-center text-white border-b-4 border-black">
-                <p className="text-yellow-400 uppercase tracking-[0.2em] text-xs font-black mb-2">Final Score</p>
+                <p className="text-yellow-400 uppercase tracking-[0.2em] text-xs font-black mb-2">Điểm số</p>
                 <div className="text-7xl font-[1000] mb-2 leading-none">{finalResult.score} / {finalResult.totalQuestions}</div>
                 <div className="inline-block px-4 py-1 bg-white text-black border-2 border-black rounded-full text-xs font-black uppercase italic">
-                  {finalResult.percentage}% Accuracy
+                  Chính xác {finalResult.percentage}%
                 </div>
               </div>
               
               <div className="grid grid-cols-3 divide-x-4 divide-black">
                 <div className="p-4 text-center">
-                  <p className="text-[10px] text-gray-500 uppercase font-black mb-1">Time</p>
+                  <p className="text-[10px] text-gray-500 uppercase font-black mb-1">Thời gian</p>
                   <p className="text-lg font-black text-black">{finalResult.timeSpent}s</p>
                 </div>
                 <div className="p-4 text-center bg-cyan-200">
-                  <p className="text-[10px] text-black uppercase font-black mb-1">Level</p>
+                  <p className="text-[10px] text-black uppercase font-black mb-1">Độ khó</p>
                   <p className="text-lg font-black text-black">{finalResult.level}</p>
                 </div>
                 <div className="p-4 text-center">
-                  <p className="text-[10px] text-gray-500 uppercase font-black mb-1">Topic</p>
+                  <p className="text-[10px] text-gray-500 uppercase font-black mb-1">Chủ đề</p>
                   <p className="text-sm font-black text-black truncate">{finalResult.topic}</p>
                 </div>
               </div>
@@ -221,13 +221,13 @@ const App: React.FC = () => {
 
                     <div className="space-y-2 mb-6 text-sm font-bold">
                       <div className="flex justify-between items-center p-2 bg-gray-50 rounded border-2 border-black/5">
-                        <span className="text-gray-400 uppercase text-[10px]">Your Answer</span>
+                        <span className="text-gray-400 uppercase text-[10px]">Câu trả lời của bạn</span>
                         <span className={`${userAns?.isCorrect ? 'text-green-600' : 'text-red-600'}`}>
                           {userAns?.answer ? (typeof userAns.answer === 'object' ? '...' : String(userAns.answer)) : 'Skipped'}
                         </span>
                       </div>
                       <div className="flex justify-between items-center p-2 bg-green-50 rounded border-2 border-green-200">
-                        <span className="text-green-400 uppercase text-[10px]">Correct Answer</span>
+                        <span className="text-green-400 uppercase text-[10px]">Đáp án</span>
                         <span className="text-green-700">
                           {typeof q.correctAnswer === 'object' ? 'Matches defined pairs' : String(q.correctAnswer)}
                         </span>
@@ -235,7 +235,7 @@ const App: React.FC = () => {
                     </div>
 
                     <div className="bg-gray-100 p-4 rounded-xl border-2 border-black">
-                      <p className="text-[10px] font-black text-black uppercase mb-2 tracking-widest">Why? (Explanation)</p>
+                      <p className="text-[10px] font-black text-black uppercase mb-2 tracking-widest">Giải thích</p>
                       <p className="text-xs font-bold text-gray-700 leading-relaxed italic">{q.explanation}</p>
                     </div>
                   </div>
@@ -249,7 +249,7 @@ const App: React.FC = () => {
                 onClick={() => setView('home')}
                 className="w-full py-5 bg-white brutalist-button rounded-3xl font-[1000] text-2xl uppercase tracking-tighter hover:bg-yellow-300"
               >
-                Back to Dashboard
+                Quay lại trang chủ
               </button>
             </div>
           </div>

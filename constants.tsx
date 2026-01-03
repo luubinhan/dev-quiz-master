@@ -124,7 +124,7 @@ export const MOCK_QUESTIONS: Question[] = [
     explanation: 'JSON.parse() giải mã chuỗi JSON thành object, ngược lại với JSON.stringify().',
   },
 
-  // TYPESCRIPT (10 questions)
+  // TYPESCRIPT (11 questions)
   {
     id: 'ts-1',
     topic: 'typescript',
@@ -231,6 +231,21 @@ export const MOCK_QUESTIONS: Question[] = [
     questionText: 'Từ khóa nào dùng để lấy kiểu của một biến hoặc thuộc tính trong TypeScript?',
     correctAnswer: 'typeof',
     explanation: 'Trong TypeScript, typeof dùng trong type context để trích xuất kiểu từ một giá trị thực tế.',
+  },
+  {
+    id: 'ts-11',
+    topic: 'typescript',
+    difficulty: Difficulty.MEDIUM,
+    type: QuestionType.SINGLE,
+    questionText: 'Đoạn code nào KHÔNG gây lỗi TypeScript?',
+    options: [
+      'let value: unknown = "hello";\nvalue.toUpperCase();',
+      'let value: any = "hello";\nvalue.toUpperCase();',
+      'let value: string | number = "hello";\nvalue.toFixed();',
+      'let value: never = "hello";'
+    ],
+    correctAnswer: 'let value: any = "hello";\nvalue.toUpperCase();',
+    explanation: 'Kiểu `any` cho phép thực hiện bất kỳ thao tác nào mà không bị kiểm tra kiểu. `unknown` yêu cầu kiểm tra kiểu trước khi sử dụng. `string | number` chỉ cho phép các phương thức chung (toFixed không có trên string). `never` không thể gán giá trị nào.',
   },
 
   // REACT (10 questions)
@@ -633,7 +648,7 @@ export const MOCK_QUESTIONS: Question[] = [
     questionText: 'CDN (Content Delivery Network) giải quyết vấn đề gì chủ yếu?',
     options: ['Bảo mật database', 'Giảm latency bằng cách đưa nội dung gần người dùng hơn', 'Xử lý logic backend', 'Tạo báo cáo analytics'],
     correctAnswer: 'Giảm latency bằng cách đưa nội dung gần người dùng hơn',
-    explanation: 'CDN phân phối các node lưu trữ ở nhiều vị trí địa lý khác nhau trên thế giới.',
+    explanation: 'CDN phân phối các node lưu trữ ở many vị trí địa lý khác nhau trên thế giới.',
   },
   {
     id: 'sys-6',

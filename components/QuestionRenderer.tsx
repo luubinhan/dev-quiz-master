@@ -53,6 +53,16 @@ const QuestionRenderer: React.FC<Props> = ({ question, onAnswer, currentAnswer }
     onAnswer(newPairs);
   };
 
+  // Helper to render option content nicely
+  const renderOptionContent = (opt: string) => {
+    const isCode = opt.includes(';') || opt.includes(':') || opt.includes('\n') || opt.includes('let ') || opt.includes('const ');
+    return (
+      <span className={`${isCode ? 'font-mono text-sm whitespace-pre-wrap' : ''}`}>
+        {opt}
+      </span>
+    );
+  };
+
   return (
     <div className="space-y-6">
       <div className="brutalist-card p-8 bg-white">
@@ -90,11 +100,13 @@ const QuestionRenderer: React.FC<Props> = ({ question, onAnswer, currentAnswer }
                     : 'bg-white text-black hover:bg-gray-50'
                 }`}
               >
-                <div className="flex items-center gap-4">
-                  <div className={`w-6 h-6 rounded-full border-3 border-black flex items-center justify-center ${currentAnswer === opt ? 'bg-white' : 'bg-transparent'}`}>
+                <div className="flex items-start gap-4">
+                  <div className={`mt-1.5 w-6 h-6 shrink-0 rounded-full border-3 border-black flex items-center justify-center ${currentAnswer === opt ? 'bg-white' : 'bg-transparent'}`}>
                     {currentAnswer === opt && <div className="w-3 h-3 bg-indigo-600 rounded-full" />}
                   </div>
-                  <span>{opt}</span>
+                  <div className="flex-1 min-w-0">
+                    {renderOptionContent(opt)}
+                  </div>
                 </div>
               </button>
             ))}
@@ -113,15 +125,17 @@ const QuestionRenderer: React.FC<Props> = ({ question, onAnswer, currentAnswer }
                     : 'bg-white text-black hover:bg-gray-50'
                 }`}
               >
-                <div className="flex items-center gap-4">
-                  <div className={`w-6 h-6 rounded-lg border-3 border-black flex items-center justify-center ${currentAnswer?.includes(opt) ? 'bg-black' : 'bg-transparent'}`}>
+                <div className="flex items-start gap-4">
+                  <div className={`mt-1.5 w-6 h-6 shrink-0 rounded-lg border-3 border-black flex items-center justify-center ${currentAnswer?.includes(opt) ? 'bg-black' : 'bg-transparent'}`}>
                     {currentAnswer?.includes(opt) && (
                       <svg className="w-4 h-4 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={4} d="M5 13l4 4L19 7" />
                       </svg>
                     )}
                   </div>
-                  <span>{opt}</span>
+                  <div className="flex-1 min-w-0">
+                    {renderOptionContent(opt)}
+                  </div>
                 </div>
               </button>
             ))}
@@ -158,9 +172,9 @@ const QuestionRenderer: React.FC<Props> = ({ question, onAnswer, currentAnswer }
                         : 'bg-white text-black'
                   }`}
                 >
-                  <span>{p.left}</span>
+                  <span className="flex-1 min-w-0">{renderOptionContent(p.left)}</span>
                   {matchingState.pairs[p.left] && (
-                    <span onClick={(e) => { e.stopPropagation(); clearMatch(p.left); }} className="text-red-600 hover:scale-110">
+                    <span onClick={(e) => { e.stopPropagation(); clearMatch(p.left); }} className="text-red-600 hover:scale-110 ml-2">
                       <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="3" d="M6 18L18 6M6 6l12 12" /></svg>
                     </span>
                   )}
@@ -180,7 +194,7 @@ const QuestionRenderer: React.FC<Props> = ({ question, onAnswer, currentAnswer }
                       : 'bg-white text-black'
                   }`}
                 >
-                  <span>{p.right}</span>
+                  <span className="flex-1 min-w-0">{renderOptionContent(p.right)}</span>
                 </button>
               ))}
             </div>

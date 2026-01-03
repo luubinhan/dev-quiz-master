@@ -3,7 +3,6 @@ import React, { useState, useEffect, useCallback, useMemo } from 'react';
 import { TOPICS, MOCK_QUESTIONS } from './constants';
 import { Topic, Question, QuizResult, UserAnswer, QuestionType } from './types';
 import QuestionRenderer from './components/QuestionRenderer';
-import { generateAIFeedback } from './services/geminiService';
 
 const App: React.FC = () => {
   const [view, setView] = useState<'home' | 'quiz' | 'result'>('home');
@@ -13,8 +12,6 @@ const App: React.FC = () => {
   const [answers, setAnswers] = useState<Record<string, any>>({});
   const [startTime, setStartTime] = useState<number>(0);
   const [finalResult, setFinalResult] = useState<QuizResult | null>(null);
-  const [aiFeedback, setAiFeedback] = useState<string>('');
-  const [loadingAI, setLoadingAI] = useState(false);
 
   const startQuiz = (topic: Topic) => {
     const filtered = MOCK_QUESTIONS.filter(q => q.topic === topic.id);
@@ -26,7 +23,6 @@ const App: React.FC = () => {
     setAnswers({});
     setStartTime(Date.now());
     setView('quiz');
-    setAiFeedback('');
   };
 
   const handleAnswer = (answer: any) => {
@@ -77,15 +73,7 @@ const App: React.FC = () => {
 
     setFinalResult(result);
     setView('result');
-    fetchAIFeedback(result);
   }, [questions, answers, startTime, selectedTopic]);
-
-  const fetchAIFeedback = async (result: QuizResult) => {
-    setLoadingAI(true);
-    const feedback = await generateAIFeedback(result, questions);
-    setAiFeedback(feedback || '');
-    setLoadingAI(false);
-  };
 
   const currentQuestion = questions[currentIdx];
 
@@ -251,26 +239,6 @@ const App: React.FC = () => {
                   <p className="text-[10px] text-gray-500 uppercase font-black mb-1">Topic</p>
                   <p className="text-sm font-black text-black truncate">{finalResult.topic}</p>
                 </div>
-              </div>
-
-              {/* AI Feedback - Post-it style */}
-              <div className="p-6 bg-yellow-100 border-t-4 border-black">
-                <div className="flex items-center gap-3 mb-4">
-                  <div className="w-10 h-10 bg-black rounded-xl flex items-center justify-center text-white shadow-[3px_3px_0px_0px_#7c3aed]">
-                    <svg className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M13 10V3L4 14h7v7l9-11h-7z" /></svg>
-                  </div>
-                  <h3 className="text-xl font-black text-black uppercase tracking-tight">AI Mentor Insight</h3>
-                </div>
-                {loadingAI ? (
-                  <div className="flex items-center gap-3 text-black animate-pulse">
-                    <div className="w-3 h-3 bg-black rounded-full animate-bounce" />
-                    <span className="font-black italic">Crafting your developer roadmap...</span>
-                  </div>
-                ) : (
-                  <div className="text-sm font-bold text-black/80 leading-relaxed whitespace-pre-line border-l-4 border-black pl-4">
-                    {aiFeedback}
-                  </div>
-                )}
               </div>
             </div>
 

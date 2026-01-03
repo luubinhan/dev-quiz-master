@@ -1,6 +1,14 @@
 
 import React, { useState, useEffect } from 'react';
 import { Question, QuestionType, MatchingPair } from '../types';
+import Prism from 'prismjs';
+import 'prismjs/components/prism-javascript';
+import 'prismjs/components/prism-typescript';
+import 'prismjs/components/prism-jsx';
+import 'prismjs/components/prism-tsx';
+import 'prismjs/components/prism-css';
+import 'prismjs/components/prism-markup';
+import 'prismjs/themes/prism-tomorrow.css';
 
 interface Props {
   question: Question;
@@ -19,6 +27,12 @@ const QuestionRenderer: React.FC<Props> = ({ question, onAnswer, currentAnswer }
        setMatchingState(prev => ({ ...prev, pairs: (currentAnswer as Record<string, string>) || {} }));
     }
   }, [currentAnswer, question.type]);
+
+  useEffect(() => {
+    if (question.codeSnippet) {
+      Prism.highlightAll();
+    }
+  }, [question.codeSnippet]);
 
   const handleSingleChoice = (option: string) => {
     onAnswer(option);
@@ -81,8 +95,8 @@ const QuestionRenderer: React.FC<Props> = ({ question, onAnswer, currentAnswer }
         
         {question.codeSnippet && (
           <div className="border-3 border-black rounded-xl overflow-hidden mb-8 shadow-[4px_4px_0px_0px_rgba(0,0,0,1)]">
-            <pre className="bg-slate-900 text-cyan-300 p-5 overflow-x-auto text-sm leading-relaxed">
-              <code>{question.codeSnippet}</code>
+            <pre className="bg-slate-900 p-5 overflow-x-auto text-sm leading-relaxed">
+              <code className="language-javascript">{question.codeSnippet}</code>
             </pre>
           </div>
         )}

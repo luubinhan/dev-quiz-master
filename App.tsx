@@ -208,7 +208,7 @@ const App: React.FC = () => {
 
             {/* Detailed Review Section */}
             <div className="space-y-4">
-              <h3 className="text-2xl font-black text-white drop-shadow-[2px_2px_0px_rgba(0,0,0,1)] uppercase tracking-tighter">Review Results</h3>
+              <h3 className="text-2xl font-black text-indigo-400 drop-shadow-[2px_2px_0px_rgb(0,0,0)]">Chi tiết</h3>
               {questions.map((q, idx) => {
                 const userAns = finalResult.userAnswers.find(ua => ua.questionId === q.id);
                 return (
@@ -223,7 +223,7 @@ const App: React.FC = () => {
                       <div className="flex justify-between items-center p-2 bg-gray-50 rounded border-2 border-black/5">
                         <span className="text-gray-400 uppercase text-[10px]">Câu trả lời của bạn</span>
                         <span className={`${userAns?.isCorrect ? 'text-green-600' : 'text-red-600'}`}>
-                          {userAns?.answer ? (typeof userAns.answer === 'object' ? '...' : String(userAns.answer)) : 'Skipped'}
+                          {userAns?.answer ? (typeof userAns.answer === 'object' ? '...' : String(userAns.answer)) : 'Bỏ qua'}
                         </span>
                       </div>
                       <div className="flex justify-between items-center p-2 bg-green-50 rounded border-2 border-green-200">

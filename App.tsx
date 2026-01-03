@@ -30,6 +30,21 @@ const App: React.FC = () => {
     setAnswers(prev => ({ ...prev, [questions[currentIdx].id]: answer }));
   };
 
+  useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (view !== 'quiz') return;
+      
+      if (e.key === 'ArrowLeft' && currentIdx > 0) {
+        setCurrentIdx(prev => prev - 1);
+      } else if (e.key === 'ArrowRight' && currentIdx < questions.length - 1) {
+        setCurrentIdx(prev => prev + 1);
+      }
+    };
+
+    window.addEventListener('keydown', handleKeyDown);
+    return () => window.removeEventListener('keydown', handleKeyDown);
+  }, [view, currentIdx, questions.length]);
+
   const calculateScore = useCallback(() => {
     if (questions.length === 0) return;
     
@@ -78,7 +93,7 @@ const App: React.FC = () => {
   const currentQuestion = questions[currentIdx];
 
   return (
-    <div className="max-w-md mx-auto min-h-screen py-10 px-4">
+    <div className="max-w-lg mx-auto min-h-screen py-10 px-4">
       {/* App Header */}
       <div className="flex justify-between items-center mb-8 px-2">
         <div className="flex items-center gap-3">

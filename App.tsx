@@ -90,8 +90,8 @@ const App: React.FC = () => {
                 <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="3" d="M15 19l-7-7 7-7" /></svg>
               </button>
             )}
-            <h1 className="text-3xl font-[900] text-white tracking-tighter drop-shadow-[2px_2px_0px_rgba(0,0,0,1)]">
-              {view === 'quiz' ? 'DevQuiz Master' : 'DevQuiz Master'}
+            <h1 className="text-3xl font-[900] text-yellow-400 tracking-tighter drop-shadow-[2px_2px_0px_rgba(0,0,0,1)]">
+              {view === 'quiz' ? 'DevQuiz' : 'DevQuiz'}
             </h1>
         </div>
         {view === 'quiz' && (
@@ -104,32 +104,6 @@ const App: React.FC = () => {
       <main>
         {view === 'home' && (
           <div className="space-y-6 animate-fade-in">
-            {/* Rewards Card style from UI */}
-            <div className="brutalist-card bg-emerald-400 p-6">
-                <div className="flex justify-between items-center mb-4">
-                    <h3 className="font-black text-black uppercase tracking-wider text-sm flex items-center gap-2">
-                        <span className="bg-black text-white p-1 rounded">🏆</span> Topics
-                    </h3>
-                    <span className="text-[10px] font-black underline cursor-pointer">See All</span>
-                </div>
-                <div className="grid grid-cols-2 gap-4">
-                    <div className="bg-white border-2 border-black p-3 rounded-xl shadow-[3px_3px_0px_0px_rgba(0,0,0,1)]">
-                        <p className="text-[10px] font-black text-gray-400 uppercase">Total Questions</p>
-                        <p className="text-lg font-black">{MOCK_QUESTIONS.length}</p>
-                    </div>
-                    <div className="bg-white border-2 border-black p-3 rounded-xl shadow-[3px_3px_0px_0px_rgba(0,0,0,1)]">
-                        <p className="text-[10px] font-black text-gray-400 uppercase">Active Users</p>
-                        <p className="text-lg font-black">2.4k+</p>
-                    </div>
-                </div>
-            </div>
-
-            {/* Play Now Banner */}
-            <div className="brutalist-card bg-white p-4 flex justify-between items-center">
-                <span className="font-black text-black">a</span>
-                <span className="text-2xl font-[1000] tracking-tighter uppercase italic">Ready to Code?</span>
-                <span className="font-black text-black text-lg font-serif">!</span>
-            </div>
 
             {/* Topic Grid */}
             <div className="grid grid-cols-1 gap-4">
@@ -159,21 +133,11 @@ const App: React.FC = () => {
 
         {view === 'quiz' && (
           <div className="space-y-6 animate-fade-in">
-            {/* Timer Style from UI */}
+            {/* Progress Label */}
             <div className="bg-white border-4 border-black rounded-full p-2 flex items-center justify-between shadow-[6px_6px_0px_0px_rgba(0,0,0,1)]">
                 <div className="flex-1 flex justify-center">
-                    <span className="font-black text-black tracking-tight uppercase">Knowledge is Power</span>
+                    <span className="font-black text-black tracking-tight uppercase">{currentIdx + 1} / {questions.length}</span>
                 </div>
-                <div className="w-10 h-10 bg-black rounded-full flex items-center justify-center">
-                    <svg className="w-6 h-6 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
-                </div>
-            </div>
-
-            {/* Progress Label */}
-            <div className="text-center">
-                <p className="text-2xl font-black text-white drop-shadow-[2px_2px_0px_rgba(0,0,0,1)]">
-                    {currentIdx + 1} / {questions.length}
-                </p>
             </div>
 
             {/* Question Card */}

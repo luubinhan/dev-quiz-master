@@ -151,8 +151,8 @@ const App: React.FC = () => {
             {/* Progress Bar */}
             <div className="space-y-2">
               <div className="flex justify-between items-center px-1">
-                <span className="text-xs font-black text-white uppercase tracking-wider">Câu hỏi {currentIdx + 1} / {questions.length}</span>
-                <span className="text-xs font-black text-yellow-400">{Math.round(((currentIdx + 1) / questions.length) * 100)}%</span>
+                <span className="text-xs font-black text-black uppercase tracking-wider">Câu hỏi {currentIdx + 1} / {questions.length}</span>
+                <span className="text-xs font-black text-black">{Math.round(((currentIdx + 1) / questions.length) * 100)}%</span>
               </div>
               <div className="bg-white border-4 border-black rounded-full h-8 overflow-hidden shadow-[6px_6px_0px_0px_rgba(0,0,0,1)] relative">
                 <div 
@@ -239,7 +239,7 @@ const App: React.FC = () => {
                   <div key={q.id} className={`brutalist-card p-6 bg-white border-l-[12px] ${userAns?.isCorrect ? 'border-l-green-400' : 'border-l-red-400'}`}>
                     <div className="flex justify-between items-start mb-4">
                       <h4 className="font-black text-black leading-none text-lg">
-                        Q{idx + 1}: {q.questionText}
+                        #{idx + 1}: {q.questionText}
                       </h4>
                     </div>
 

@@ -148,11 +148,20 @@ const App: React.FC = () => {
 
         {view === 'quiz' && (
           <div className="space-y-6 animate-fade-in">
-            {/* Progress Label */}
-            <div className="bg-white border-4 border-black rounded-full p-2 flex items-center justify-between shadow-[6px_6px_0px_0px_rgba(0,0,0,1)]">
-                <div className="flex-1 flex justify-center">
-                    <span className="font-black text-black tracking-tight uppercase">{currentIdx + 1} / {questions.length}</span>
+            {/* Progress Bar */}
+            <div className="space-y-2">
+              <div className="flex justify-between items-center px-1">
+                <span className="text-xs font-black text-white uppercase tracking-wider">Câu hỏi {currentIdx + 1} / {questions.length}</span>
+                <span className="text-xs font-black text-yellow-400">{Math.round(((currentIdx + 1) / questions.length) * 100)}%</span>
+              </div>
+              <div className="bg-white border-4 border-black rounded-full h-8 overflow-hidden shadow-[6px_6px_0px_0px_rgba(0,0,0,1)] relative">
+                <div 
+                  className="h-full bg-gradient-to-r from-yellow-400 via-yellow-200 to-green-400 transition-all duration-500 ease-out flex items-center justify-end pr-3"
+                  style={{ width: `${((currentIdx + 1) / questions.length) * 100}%` }}
+                >
+                  <span className="text-xs font-black text-black drop-shadow-sm">●</span>
                 </div>
+              </div>
             </div>
 
             {/* Question Card */}

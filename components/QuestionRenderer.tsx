@@ -67,6 +67,24 @@ const QuestionRenderer: React.FC<Props> = ({ question, onAnswer, currentAnswer }
     onAnswer(newPairs);
   };
 
+  const clearAllMatches = () => {
+    setMatchingState({ left: null, pairs: {} });
+    onAnswer({});
+  };
+
+  // Get pair number for a given left or right value
+  const getPairNumber = (leftValue: string): number | null => {
+    const pairIndex = Object.keys(matchingState.pairs).indexOf(leftValue);
+    return pairIndex >= 0 ? pairIndex + 1 : null;
+  };
+
+  const getRightPairNumber = (rightValue: string): number | null => {
+    const leftKey = Object.keys(matchingState.pairs).find(
+      key => matchingState.pairs[key] === rightValue
+    );
+    return leftKey ? getPairNumber(leftKey) : null;
+  };
+
   // Helper to render option content nicely
   const renderOptionContent = (opt: string) => {
     const isCode = opt.includes(';') || opt.includes(':') || opt.includes('\n') || opt.includes('let ') || opt.includes('const ');
@@ -80,14 +98,14 @@ const QuestionRenderer: React.FC<Props> = ({ question, onAnswer, currentAnswer }
   return (
     <div className="space-y-6">
       <div className="brutalist-card p-8 bg-white">
-        <div className="flex items-center gap-2 mb-6">
+        {/* <div className="flex items-center gap-2 mb-6">
           <span className="px-3 py-1 bg-yellow-400 border-2 border-black font-black text-[10px] rounded-full uppercase">
             {question.difficulty}
           </span>
           <span className="px-3 py-1 bg-cyan-400 border-2 border-black font-black text-[10px] rounded-full uppercase">
             {question.type.replace('-', ' ')}
           </span>
-        </div>
+        </div> */}
         
         <h3 className="text-2xl font-extrabold text-black mb-6 leading-tight">
           {question.questionText}
@@ -95,8 +113,8 @@ const QuestionRenderer: React.FC<Props> = ({ question, onAnswer, currentAnswer }
         
         {question.codeSnippet && (
           <div className="border-3 border-black rounded-xl overflow-hidden mb-8 shadow-[4px_4px_0px_0px_rgba(0,0,0,1)]">
-            <pre className="bg-slate-900 p-5 overflow-x-auto text-sm leading-relaxed">
-              <code className="language-javascript">{question.codeSnippet}</code>
+            <pre className="bg-slate-900 p-5 overflow-x-auto text-sm leading-relaxed !bg-slate-900 !my-0">
+              <code className="language-javascript !text-sm">{question.codeSnippet}</code>
             </pre>
           </div>
         )}
@@ -170,48 +188,85 @@ const QuestionRenderer: React.FC<Props> = ({ question, onAnswer, currentAnswer }
         )}
 
         {question.type === QuestionType.DRAG_DROP && (
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mt-4">
-            <div className="space-y-4">
-              <h4 className="text-xs font-black text-black uppercase tracking-widest bg-yellow-300 inline-block px-2 border-2 border-black">Khái niệm</h4>
-              {question.matchingPairs?.map(p => (
-                <button
-                  key={p.id}
-                  onClick={() => handleMatchClick('left', p.left)}
-                  disabled={!!matchingState.pairs[p.left]}
-                  className={`w-full p-4 rounded-xl brutalist-button text-left font-bold flex justify-between items-center ${
-                    matchingState.left === p.left 
-                      ? 'bg-indigo-400 text-white' 
-                      : matchingState.pairs[p.left] 
-                        ? 'bg-green-300 opacity-50 shadow-none border-gray-400' 
-                        : 'bg-white text-black'
-                  }`}
-                >
-                  <span className="flex-1 min-w-0">{renderOptionContent(p.left)}</span>
-                  {matchingState.pairs[p.left] && (
-                    <span onClick={(e) => { e.stopPropagation(); clearMatch(p.left); }} className="text-red-600 hover:scale-110 ml-2">
-                      <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="3" d="M6 18L18 6M6 6l12 12" /></svg>
-                    </span>
-                  )}
-                </button>
-              ))}
+          <div className="space-y-6">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+              <div className="space-y-4">
+                <h4 className="text-xs font-black text-black uppercase tracking-widest bg-yellow-300 inline-block px-2 border-2 border-black">Khái niệm</h4>
+                {question.matchingPairs?.map(p => {
+                  const pairNum = getPairNumber(p.left);
+                  return (
+                    <div className="flex items-center" key={p.id}>
+                      <button
+                        key={p.id}
+                        onClick={() => handleMatchClick('left', p.left)}
+                        disabled={!!matchingState.pairs[p.left]}
+                        className={`w-full p-4 rounded-xl brutalist-button text-left font-bold flex justify-between items-center ${
+                          matchingState.left === p.left 
+                            ? 'bg-indigo-400 text-white' 
+                            : matchingState.pairs[p.left] 
+                              ? 'bg-green-300 opacity-50 shadow-none border-gray-400' 
+                              : 'bg-white text-black'
+                        }`}
+                      >
+                        <div className="flex items-center gap-3 flex-1 min-w-0">
+                          {pairNum && (
+                            <span className="shrink-0 w-8 h-8 flex items-center justify-center bg-black text-white rounded-full font-black text-sm">
+                              {pairNum}
+                            </span>
+                          )}
+                          <span className="flex-1 min-w-0">{renderOptionContent(p.left)}</span>
+                        </div>
+                      </button>
+                    {matchingState.pairs[p.left] && (
+                        <span onClick={(e) => { e.stopPropagation(); clearMatch(p.left); }} className="text-red-600 hover:scale-110 ml-2">
+                          <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="3" d="M6 18L18 6M6 6l12 12" /></svg>
+                        </span>
+                      )}
+                    </div>
+                  );
+                })}
+              </div>
+              <div className="space-y-4">
+                <h4 className="text-xs font-black text-black uppercase tracking-widest bg-cyan-300 inline-block px-2 border-2 border-black">Định nghĩa</h4>
+                {question.matchingPairs?.map((p, idx) => {
+                  const pairNum = getRightPairNumber(p.right);
+                  const isSelected = Object.values(matchingState.pairs).includes(p.right);
+                  return (
+                    <button
+                      key={`right-${idx}`}
+                      onClick={() => handleMatchClick('right', p.right)}
+                      disabled={isSelected}
+                      className={`w-full p-4 rounded-xl brutalist-button text-left font-bold text-sm ${
+                        isSelected
+                          ? 'bg-gray-100 opacity-50 shadow-none'
+                          : 'bg-white text-black'
+                      }`}
+                    >
+                      <div className="flex items-center gap-3">
+                        {pairNum && (
+                          <span className="shrink-0 w-8 h-8 flex items-center justify-center bg-black text-white rounded-full font-black text-sm">
+                            {pairNum}
+                          </span>
+                        )}
+                        <span className="flex-1 min-w-0">{renderOptionContent(p.right)}</span>
+                      </div>
+                    </button>
+                  );
+                })}
+              </div>
             </div>
-            <div className="space-y-4">
-              <h4 className="text-xs font-black text-black uppercase tracking-widest bg-cyan-300 inline-block px-2 border-2 border-black">Định nghĩa</h4>
-              {question.matchingPairs?.map((p, idx) => (
+
+            {/* Reset Button */}
+            {Object.keys(matchingState.pairs).length > 0 && (
+              <div className="flex justify-end">
                 <button
-                  key={`right-${idx}`}
-                  onClick={() => handleMatchClick('right', p.right)}
-                  disabled={Object.values(matchingState.pairs).includes(p.right)}
-                  className={`w-full p-4 rounded-xl brutalist-button text-left font-bold text-sm ${
-                    Object.values(matchingState.pairs).includes(p.right)
-                      ? 'bg-gray-100 opacity-50 shadow-none'
-                      : 'bg-white text-black'
-                  }`}
+                  onClick={clearAllMatches}
+                  className="px-4 py-2 bg-red-500 text-white font-bold rounded-xl border-3 border-black shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] hover:shadow-none hover:translate-x-1 hover:translate-y-1 transition-all"
                 >
-                  <span className="flex-1 min-w-0">{renderOptionContent(p.right)}</span>
+                  Xóa tất cả ghép đôi
                 </button>
-              ))}
-            </div>
+              </div>
+            )}
           </div>
         )}
       </div>

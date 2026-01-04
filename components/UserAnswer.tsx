@@ -5,11 +5,14 @@ interface CorrectMatchProps {
 }
 
 const UserAnswer = ({ answer }: CorrectMatchProps) => {
+    if (!answer) {
+        return null;
+    }
     return (
         <div className="p-4 bg-gray-50 rounded border-2 border-black/5">
             <h4 className="font-black text-black leading-none text-lg mb-4">Câu trả lời của bạn</h4>
             <div className="grid grid-cols-1 gap-4">
-                {Object.entries(answer).map(([key, value]) => (
+                {Object.entries(answer)?.map(([key, value]) => (
                     <div key={key} className="flex gap-2">
                         <div className="font-bold flex-none w-32 text-black">{key}</div>
                         <div className="text-black w-4">→</div>

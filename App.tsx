@@ -35,10 +35,11 @@ const App: React.FC = () => {
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
       if (view !== 'quiz') return;
-      
       if (e.key === 'ArrowLeft' && currentIdx > 0) {
         setCurrentIdx(prev => prev - 1);
       } else if (e.key === 'ArrowRight' && currentIdx < questions.length - 1) {
+        setCurrentIdx(prev => prev + 1);
+      } else if (e.key === 'Enter' && currentIdx < questions.length - 1) {
         setCurrentIdx(prev => prev + 1);
       }
     };

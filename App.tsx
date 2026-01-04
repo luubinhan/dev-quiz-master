@@ -3,6 +3,8 @@ import React, { useState, useEffect, useCallback, useMemo } from 'react';
 import { TOPICS, MOCK_QUESTIONS } from './constants';
 import { Topic, Question, QuizResult, UserAnswer, QuestionType } from './types';
 import QuestionRenderer from './components/QuestionRenderer';
+import CorrectMatch from './components/CorrectMatch';
+import UserAnswerComponent from './components/UserAnswer';
 
 const App: React.FC = () => {
   const [view, setView] = useState<'home' | 'quiz' | 'result'>('home');
@@ -235,6 +237,7 @@ const App: React.FC = () => {
               <h3 className="text-2xl font-black text-indigo-400 drop-shadow-[2px_2px_0px_rgb(0,0,0)]">Chi tiết</h3>
               {questions.map((q, idx) => {
                 const userAns = finalResult.userAnswers.find(ua => ua.questionId === q.id);
+                const isMatchType = q.type === QuestionType.DRAG_DROP;
                 return (
                   <div key={q.id} className={`brutalist-card p-6 bg-white border-l-[12px] ${userAns?.isCorrect ? 'border-l-green-400' : 'border-l-red-400'}`}>
                     <div className="flex justify-between items-start mb-4">
@@ -244,24 +247,38 @@ const App: React.FC = () => {
                     </div>
 
                     <div className="space-y-2 mb-6 text-sm font-bold">
-                      <div className="flex justify-between items-center p-2 bg-gray-50 rounded border-2 border-black/5">
-                        <span className="text-gray-400 uppercase text-[10px]">Câu trả lời của bạn</span>
-                        <span className={`${userAns?.isCorrect ? 'text-green-600' : 'text-red-600'}`}>
-                          {userAns?.answer ? (typeof userAns.answer === 'object' ? '...' : String(userAns.answer)) : 'Bỏ qua'}
-                        </span>
-                      </div>
-                      <div className="flex justify-between items-center p-2 bg-green-50 rounded border-2 border-green-200">
-                        <span className="text-green-400 uppercase text-[10px]">Đáp án</span>
-                        <span className="text-green-700">
-                          {typeof q.correctAnswer === 'object' ? 'Matches defined pairs' : String(q.correctAnswer)}
-                        </span>
-                      </div>
+                     
+                      {isMatchType ? (
+                        <div key={q.id}>
+                          <UserAnswerComponent answer={userAns.answer} />
+                          <br />
+                          <br />
+                          <CorrectMatch question={q} />
+                        </div>
+                      )
+                      : (
+                        <>
+                          <div className="flex justify-between items-center p-2 bg-gray-50 rounded border-2 border-black/5">
+                            <span className="text-gray-400 uppercase text-[10px]">Câu trả lời của bạn</span>
+                            <span className={`${userAns?.isCorrect ? 'text-green-600' : 'text-red-600'}`}>
+                              {userAns?.answer ? (typeof userAns.answer === 'object' ? '...' : String(userAns.answer)) : 'Bỏ qua'}
+                            </span>
+                          </div>
+                          <div className="flex justify-between items-center p-2 bg-green-50 rounded border-2 border-green-200">
+                            <span className="text-green-400 uppercase text-[10px]">Đáp án</span>
+                            <span className="text-green-700">
+                              {typeof q.correctAnswer === 'object' ? 'Matches defined pairs' : String(q.correctAnswer)}
+                            </span>
+                          </div>
+                        </>
+                      )}                      
                     </div>
-
-                    <div className="bg-gray-100 p-4 rounded-xl border-2 border-black">
-                      <p className="text-[10px] font-black text-black uppercase mb-2 tracking-widest">Giải thích</p>
-                      <p className="text-xs font-bold text-gray-700 leading-relaxed italic">{q.explanation}</p>
-                    </div>
+                    {!isMatchType && (
+                      <div className="bg-gray-100 p-4 rounded-xl border-2 border-black">
+                        <p className="text-[10px] font-black text-black uppercase mb-2 tracking-widest">Giải thích</p>
+                        <p className="text-xs font-bold text-gray-700 leading-relaxed italic">{q.explanation}</p>
+                      </div>
+                    )}                    
                   </div>
                 );
               })}

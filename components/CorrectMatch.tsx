@@ -7,8 +7,8 @@ interface CorrectMatchProps {
 
 const CorrectMatch = ({ question }: CorrectMatchProps) => {
     return (
-        <div className="p-4 bg-green-50 rounded border-2 border-green-200">
-            <h4 className="font-black text-green-700 leading-none text-lg mb-4">Đáp án đúng:</h4>
+        <div className="p-4 bg-green-50 rounded border-2 border-green-200 mt-2">
+            <h4 className="font-black text-green-700 leading-none text-lg mb-4">Đáp án:</h4>
             <div className="grid grid-cols-1 gap-4">
                 {Object.entries(question.correctAnswer as Record<string, string>).map(([key, value]) => (
                     <div key={key} className="flex gap-2">

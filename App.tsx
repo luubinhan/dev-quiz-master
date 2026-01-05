@@ -5,6 +5,8 @@ import { Topic, Question, QuizResult, UserAnswer, QuestionType } from './types';
 import QuestionRenderer from './components/QuestionRenderer';
 import CorrectMatch from './components/CorrectMatch';
 import UserAnswerComponent from './components/UserAnswer';
+import UserMulitpleAnswer from './components/UserMulitpleAnswer';
+import CorrectMultiple from './components/CorrectMultiple';
 
 const App: React.FC = () => {
   const [view, setView] = useState<'home' | 'quiz' | 'result'>('home');
@@ -239,6 +241,8 @@ const App: React.FC = () => {
               {questions.map((q, idx) => {
                 const userAns = finalResult.userAnswers.find(ua => ua.questionId === q.id);
                 const isMatchType = q.type === QuestionType.DRAG_DROP;
+                const isMultipleType = q.type === QuestionType.MULTIPLE;
+                const isSingle = q.type === QuestionType.SINGLE || q.type === QuestionType.FILL;
                 return (
                   <div key={q.id} className={`brutalist-card p-6 bg-white border-l-[12px] ${userAns?.isCorrect ? 'border-l-green-400' : 'border-l-red-400'}`}>
                     <div className="flex justify-between items-start mb-4">
@@ -249,15 +253,19 @@ const App: React.FC = () => {
 
                     <div className="space-y-2 mb-6 text-sm font-bold">
                      
-                      {isMatchType ? (
+                      {isMatchType && (
                         <div key={q.id}>
                           <UserAnswerComponent answer={userAns.answer} />
-                          <br />
-                          <br />
                           <CorrectMatch question={q} />
                         </div>
-                      )
-                      : (
+                      )}
+                      {isMultipleType && (
+                        <div key={q.id}>
+                          <UserMulitpleAnswer userAns={userAns} />
+                          <CorrectMultiple answer={q.correctAnswer as string[]} />
+                        </div>
+                      )}
+                      {isSingle && (
                         <>
                           <div className="flex justify-between items-center p-2 bg-gray-50 rounded border-2 border-black/5">
                             <span className="text-gray-400 uppercase text-[10px]">Câu trả lời của bạn</span>
